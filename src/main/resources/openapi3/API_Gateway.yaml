@@ -1,0 +1,340 @@
+openapi: 3.0.3
+info:
+  title: Chat4Me - API Gateway
+  version: 1.0.0
+  description: >-
+    The API Gateway serves as a centralized entry point for routing requests to the
+    Messaging and Authentication services. It ensures secure and efficient communication
+    by enforcing authentication, request validation, and forwarding requests to the
+    appropriate microservices.
+
+servers:
+  - url: http://localhost:8080
+    description: API Gateway production server
+
+tags:
+  - name: messaging
+    description: Endpoints related to sending and receiving messages.
+  - name: auth
+    description: Endpoints for authentication, login, and token management.
+  - name: users
+    description: Endpoints for retrieve the available users for chat.
+
+paths:
+  /messages:
+    get:
+      tags:
+        - messaging
+      summary: Retrieve messages for the authenticated user
+      description: >-
+        Proxies a request to the Messaging Service to fetch messages for the authenticated
+        user. Requires a valid JWT token for authorization.
+      operationId: getMessages
+      parameters:
+        - name: user_id_sender
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: user_id_receiver
+          description: Id provided if a list of messages sent to a specific user is needed
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully retrieved the list of messages for a specific user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageList'
+        '403':
+          description: Forbidden - The user is not authorized to access these messages.
+    post:
+      tags:
+        - messaging
+      summary: Send a new message
+      description: >-
+        Proxies a request to the Messaging Service to send a new message. The sender,
+        receiver, and message content must be provided in the request body.
+      operationId: newMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMessageDto'
+      responses:
+        '201':
+          description: Message successfully sent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageDto'
+        '400':
+          description: Bad request - Invalid input.
+
+  /auth/start-login:
+    post:
+      tags:
+        - auth
+      summary: Initiate the authentication process
+      description: >-
+        Proxies a request to the Authentication Service to start the login process using
+        username and password to generate an OTP code.
+      operationId: startLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDto'
+      responses:
+        '200':
+          description: Login process initiated, OTP sent, and challenge ID returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeResponseDto'
+
+  /auth/verify-otp:
+    post:
+      tags:
+        - auth
+      summary: Verify OTP and complete login
+      description: >-
+        Proxies a request to the Authentication Service to verify the OTP entered by the user.
+        If the OTP is correct, an access token is issued.
+      operationId: verifyOTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OTPVerificationRequestDto'
+      responses:
+        '200':
+          description: OTP verified successfully, access token issued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenDto'
+
+  /auth/validate-token:
+    post:
+      tags:
+        - auth
+      summary: Validate an access token
+      description: >-
+        Proxies a request to the Authentication Service to check if the provided access token
+        is valid and has not expired.
+      operationId: validateToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenValidationRequestDto'
+      responses:
+        '200':
+          description: Token is valid.
+
+  /auth/refresh:
+    post:
+      tags:
+        - auth
+      summary: Refresh an expired access token
+      description: >-
+        Proxies a request to the Authentication Service to refresh an expired access token
+        using a valid refresh token.
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequestDto'
+      responses:
+        '200':
+          description: A new access token has been issued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenDto'
+  
+  /users:
+    get:
+      tags:
+        - users
+      summary: Retrieve available users
+      description: >-
+        Proxies a request to the Messaging Service to fetch a list of available users.
+        Requires authentication via a valid JWT token.
+      operationId: getUsers
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved the list of users.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+
+components:
+  schemas:
+    LoginRequestDto:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    ChallengeResponseDto:
+      type: object
+      properties:
+        challenge_id:
+          type: string
+        message:
+          type: string
+        user_id:
+          type: string
+          format: uuid
+
+    OTPVerificationRequestDto:
+      type: object
+      required:
+        - challenge_id
+        - otp
+      properties:
+        challenge_id:
+          type: string
+          format: uuid
+        otp:
+          type: string
+        expiresAt:
+          type: integer
+        user_id:
+          type: string
+          format: uuid
+
+    AuthTokenDto:
+      type: object
+      properties:
+        token_id:
+          type: string
+          format: uuid
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+        message:
+          type: string
+        user_id:
+          type: string
+          format: uuid
+
+    TokenValidationRequestDto:
+      type: object
+      required:
+        - access_token
+      properties:
+        token_id:
+          type: string
+          format: uuid
+        access_token:
+          type: string
+        user_id:
+          type: string
+          format: uuid
+
+    RefreshTokenRequestDto:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token_id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+
+    MessageDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the message.
+          format: uuid
+        sender:
+          type: string
+          description: UUID of the sender
+          format: uuid
+        receiver:
+          type: string
+          description: UUID of the receiver
+          format: uuid
+        content:
+          type: string
+        received:
+          type: boolean
+          format: boolean
+        timestamp:
+          type: string
+          format: date-time
+
+    MessageList:
+      type: array
+      items:
+        $ref: '#/components/schemas/MessageDto'
+
+    NewMessageDto:
+      type: object
+      required:
+        - sender
+        - receiver
+        - content
+      properties:
+        sender:
+          type: string
+          description: UUID of the sender
+          format: uuid
+        receiver:
+          type: string
+          description: UUID of the receiver
+          format: uuid
+        content:
+          type: string
+
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        surname:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        token_id:
+          type: string
+          format: uuid
+
+    UserList:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserDto'
