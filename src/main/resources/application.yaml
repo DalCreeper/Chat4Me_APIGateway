@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: Chat4Me - API Gateway
+app:
+  feign:
+    clients:
+      url: http://localhost:8080
+      api:
+        getMessages: /messages
+        newMessage: /messages
+        startLogin: /auth/start-login
+        verifyOTP: /auth/verify-otp
+        validateToken: /auth/validate-token
+        refreshToken: /auth/refresh
+        getUsers: /users

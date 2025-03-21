@@ -31,12 +31,11 @@ paths:
         user. Requires a valid JWT token for authorization.
       operationId: getMessages
       parameters:
-        - name: user_id_sender
+        - name: token_sender
           in: query
           required: true
           schema:
             type: string
-            format: uuid
         - name: user_id_receiver
           description: Id provided if a list of messages sent to a specific user is needed
           in: query
@@ -221,6 +220,7 @@ components:
           type: string
         expiresAt:
           type: integer
+          format: int64
         user_id:
           type: string
           format: uuid
@@ -235,6 +235,7 @@ components:
           type: string
         expires_in:
           type: integer
+          format: int64
         message:
           type: string
         user_id:
@@ -274,10 +275,9 @@ components:
           type: string
           description: Unique identifier for the message.
           format: uuid
-        sender:
+        tokenSender:
           type: string
-          description: UUID of the sender
-          format: uuid
+          description: Token of the sender
         receiver:
           type: string
           description: UUID of the receiver
@@ -299,14 +299,13 @@ components:
     NewMessageDto:
       type: object
       required:
-        - sender
+        - tokenSender
         - receiver
         - content
       properties:
-        sender:
+        tokenSender:
           type: string
-          description: UUID of the sender
-          format: uuid
+          description: Token of the sender
         receiver:
           type: string
           description: UUID of the receiver
