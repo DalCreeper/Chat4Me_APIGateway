@@ -1,8 +1,8 @@
-package com.advancia.chat4me_api_gateway.application.services.impl;
+package com.advancia.chat4me_api_gateway.application.api.feign.impl;
 
 import com.advancia.Chat4Me_API_Gateway.generated.application.model.*;
 import com.advancia.chat4me_api_gateway.application.api.feign.AuthServiceFeignClient;
-import com.advancia.chat4me_api_gateway.domain.api.AuthServiceFeignClientService;
+import com.advancia.chat4me_api_gateway.application.services.AuthServiceFeign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,31 +11,31 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceFeignClientServiceImpl implements AuthServiceFeignClientService {
-    private final AuthServiceFeignClient authServiceFeignClient;
+public class AuthServiceFeignClientImpl implements AuthServiceFeignClient {
+    private final AuthServiceFeign authServiceFeign;
 
     @Override
     public ResponseEntity<ChallengeResponseDto> startLogin(LoginRequestDto loginRequestDto) {
-        return authServiceFeignClient.startLogin(loginRequestDto);
+        return authServiceFeign.startLogin(loginRequestDto);
     }
 
     @Override
     public ResponseEntity<AuthTokenDto> verifyOTP(OTPVerificationRequestDto otpVerificationRequestDto) {
-        return authServiceFeignClient.verifyOTP(otpVerificationRequestDto);
+        return authServiceFeign.verifyOTP(otpVerificationRequestDto);
     }
 
     @Override
     public ResponseEntity<Void> validateToken(TokenValidationRequestDto tokenValidationRequestDto) {
-        return authServiceFeignClient.validateToken(tokenValidationRequestDto);
+        return authServiceFeign.validateToken(tokenValidationRequestDto);
     }
 
     @Override
     public ResponseEntity<AuthTokenDto> refreshToken(RefreshTokenRequestDto refreshTokenRequestDto) {
-        return authServiceFeignClient.refreshToken(refreshTokenRequestDto);
+        return authServiceFeign.refreshToken(refreshTokenRequestDto);
     }
 
     @Override
     public ResponseEntity<List<UserDto>> getUsers() {
-        return authServiceFeignClient.getUsers();
+        return authServiceFeign.getUsers();
     }
 }

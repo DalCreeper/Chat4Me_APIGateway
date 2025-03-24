@@ -22,7 +22,7 @@ public class MessagingServiceFeignClientServiceImpl implements MessagingServiceF
     }
 
     @Override
-    public ResponseEntity<NewMessageDto> newMessage(NewMessageDto newMessageDto) {
+    public ResponseEntity<MessageDto> newMessage(NewMessageDto newMessageDto) {
         return messagingServiceFeignClient.newMessage(newMessageDto);
     }
 }

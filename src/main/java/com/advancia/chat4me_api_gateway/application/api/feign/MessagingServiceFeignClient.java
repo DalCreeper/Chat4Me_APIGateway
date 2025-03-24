@@ -24,5 +24,5 @@ public interface MessagingServiceFeignClient {
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<NewMessageDto> newMessage(@RequestBody NewMessageDto newMessageDto);
+    ResponseEntity<MessageDto> newMessage(@RequestBody NewMessageDto newMessageDto);
 }
