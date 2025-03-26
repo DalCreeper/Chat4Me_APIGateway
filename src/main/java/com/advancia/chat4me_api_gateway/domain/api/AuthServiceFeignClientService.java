@@ -1,14 +1,14 @@
 package com.advancia.chat4me_api_gateway.domain.api;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.*;
-import org.springframework.http.ResponseEntity;
+
+import com.advancia.chat4me_api_gateway.domain.model.*;
 
 import java.util.List;
 
 public interface AuthServiceFeignClientService {
-    ResponseEntity<ChallengeResponseDto> startLogin(LoginRequestDto loginRequestDto);
-    ResponseEntity<AuthTokenDto> verifyOTP(OTPVerificationRequestDto otpVerificationRequestDto);
-    ResponseEntity<Void> validateToken(TokenValidationRequestDto tokenValidationRequestDto);
-    ResponseEntity<AuthTokenDto> refreshToken(RefreshTokenRequestDto refreshTokenRequestDto);
-    ResponseEntity<List<UserDto>> getUsers();
+    ChallengeResponse startLogin(LoginRequest loginRequest);
+    AuthToken verifyOTP(OTPVerificationRequest otpVerificationRequest);
+    void validateToken(TokenValidationRequest tokenValidationRequest);
+    AuthToken refreshToken(RefreshTokenRequest refreshTokenRequest);
+    List<User> getUsers();
 }

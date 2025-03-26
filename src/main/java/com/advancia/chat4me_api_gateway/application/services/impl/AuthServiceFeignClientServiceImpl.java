@@ -2,9 +2,11 @@ package com.advancia.chat4me_api_gateway.application.services.impl;
 
 import com.advancia.Chat4Me_API_Gateway.generated.application.model.*;
 import com.advancia.chat4me_api_gateway.application.api.feign.AuthServiceFeignClient;
+import com.advancia.chat4me_api_gateway.application.mappers.AuthMappers;
+import com.advancia.chat4me_api_gateway.application.mappers.UserMappers;
 import com.advancia.chat4me_api_gateway.domain.api.AuthServiceFeignClientService;
+import com.advancia.chat4me_api_gateway.domain.model.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,29 +15,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthServiceFeignClientServiceImpl implements AuthServiceFeignClientService {
     private final AuthServiceFeignClient authServiceFeignClient;
+    private final AuthMappers authMappers;
+    private final UserMappers userMappers;
 
     @Override
-    public ResponseEntity<ChallengeResponseDto> startLogin(LoginRequestDto loginRequestDto) {
-        return authServiceFeignClient.startLogin(loginRequestDto);
+    public ChallengeResponse startLogin(LoginRequest loginRequest) {
+        LoginRequestDto loginRequestDto = authMappers.convertFromDomain(loginRequest);
+        ChallengeResponseDto challengeResponseDto = authServiceFeignClient.startLogin(loginRequestDto);
+        return authMappers.convertToDomain(challengeResponseDto);
     }
 
     @Override
-    public ResponseEntity<AuthTokenDto> verifyOTP(OTPVerificationRequestDto otpVerificationRequestDto) {
-        return authServiceFeignClient.verifyOTP(otpVerificationRequestDto);
+    public AuthToken verifyOTP(OTPVerificationRequest otpVerificationRequest) {
+        OTPVerificationRequestDto otpVerificationRequestDto = authMappers.convertFromDomain(otpVerificationRequest);
+        AuthTokenDto authTokenDto = authServiceFeignClient.verifyOTP(otpVerificationRequestDto);
+        return authMappers.convertToDomain(authTokenDto);
     }
 
     @Override
-    public ResponseEntity<Void> validateToken(TokenValidationRequestDto tokenValidationRequestDto) {
-        return authServiceFeignClient.validateToken(tokenValidationRequestDto);
+    public void validateToken(TokenValidationRequest tokenValidationRequest) {
+        TokenValidationRequestDto tokenValidationRequestDto = authMappers.convertFromDomain(tokenValidationRequest);
+        authServiceFeignClient.validateToken(tokenValidationRequestDto);
     }
 
     @Override
-    public ResponseEntity<AuthTokenDto> refreshToken(RefreshTokenRequestDto refreshTokenRequestDto) {
-        return authServiceFeignClient.refreshToken(refreshTokenRequestDto);
+    public AuthToken refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        RefreshTokenRequestDto refreshTokenRequestDto = authMappers.convertFromDomain(refreshTokenRequest);
+        AuthTokenDto refreshAuthTokenDto = authServiceFeignClient.refreshToken(refreshTokenRequestDto);
+        return authMappers.convertToDomain(refreshAuthTokenDto);
     }
 
     @Override
-    public ResponseEntity<List<UserDto>> getUsers() {
-        return authServiceFeignClient.getUsers();
+    public List<User> getUsers() {
+        List<UserDto> usersDto = authServiceFeignClient.getUsers();
+        return userMappers.convertToDomain(usersDto);
     }
 }

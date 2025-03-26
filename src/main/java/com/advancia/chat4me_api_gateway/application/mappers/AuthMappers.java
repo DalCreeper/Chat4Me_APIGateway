@@ -8,6 +8,13 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface AuthMappers {
+    @Mapping(source = "username", target = "username")
+    @Mapping(source = "password", target = "password")
+    LoginRequestDto convertFromDomain(LoginRequest loginRequest);
+    @Mapping(source = "username", target = "username")
+    @Mapping(source = "password", target = "password")
+    LoginRequest convertToDomain(LoginRequestDto loginRequestDto);
+
     @Mapping(source = "challengeId", target = "challengeId")
     @Mapping(source = "message", target = "message")
     @Mapping(source = "userId", target = "userId")
@@ -16,6 +23,26 @@ public interface AuthMappers {
     @Mapping(source = "message", target = "message")
     @Mapping(source = "userId", target = "userId")
     ChallengeResponse convertToDomain(ChallengeResponseDto challengeResponseDto);
+
+    @Mapping(source = "challengeId", target = "challengeId")
+    @Mapping(source = "otp", target = "otp")
+    @Mapping(source = "expiresAt", target = "expiresAt")
+    @Mapping(source = "userId", target = "userId")
+    OTPVerificationRequestDto convertFromDomain(OTPVerificationRequest otpVerificationRequest);
+    @Mapping(source = "challengeId", target = "challengeId")
+    @Mapping(source = "otp", target = "otp")
+    @Mapping(source = "expiresAt", target = "expiresAt")
+    @Mapping(source = "userId", target = "userId")
+    OTPVerificationRequest convertToDomain(OTPVerificationRequestDto otpVerificationRequestDto);
+
+    @Mapping(source = "tokenId", target = "tokenId")
+    @Mapping(source = "accessToken", target = "accessToken")
+    @Mapping(source = "userId", target = "userId")
+    TokenValidationRequestDto convertFromDomain(TokenValidationRequest tokenValidationRequest);
+    @Mapping(source = "tokenId", target = "tokenId")
+    @Mapping(source = "accessToken", target = "accessToken")
+    @Mapping(source = "userId", target = "userId")
+    TokenValidationRequest convertToDomain(TokenValidationRequestDto tokenValidationRequestDto);
 
     @Mapping(source = "tokenId", target = "tokenId")
     @Mapping(source = "accessToken", target = "accessToken")
@@ -27,4 +54,11 @@ public interface AuthMappers {
     @Mapping(source = "expiresIn", target = "expiresIn")
     @Mapping(source = "userId", target = "userId")
     AuthToken convertToDomain(AuthTokenDto authTokenDto);
+
+    @Mapping(source = "refreshTokenId", target = "refreshTokenId")
+    @Mapping(source = "userId", target = "userId")
+    RefreshTokenRequestDto convertFromDomain(RefreshTokenRequest refreshTokenRequest);
+    @Mapping(source = "refreshTokenId", target = "refreshTokenId")
+    @Mapping(source = "userId", target = "userId")
+    RefreshTokenRequest convertToDomain(RefreshTokenRequestDto refreshTokenRequestDto);
 }
