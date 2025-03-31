@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MessagingServiceFeignClientService {
-    List<Message> getMessages(String tokenSender, UUID receiver);
+    List<Message> getMessages(UUID sender, UUID receiver);
     Message newMessage(NewMessage newMessage);
 }

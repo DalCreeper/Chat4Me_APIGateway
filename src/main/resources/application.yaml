@@ -4,12 +4,20 @@ spring:
 app:
   feign:
     clients:
-      url: http://localhost:8080
-      api:
-        getMessages: /messages
-        newMessage: /messages
-        startLogin: /auth/start-login
-        verifyOTP: /auth/verify-otp
-        validateToken: /auth/validate-token
-        refreshToken: /auth/refresh
-        getUsers: /users
+      auth-service:
+        url: http://localhost:8081
+        api:
+          startLogin: /auth/start-login
+          verifyOTP: /auth/verify-otp
+          validateToken: /auth/validate-token
+          extractUUID: /auth/extract-uuid
+          refreshToken: /auth/refresh
+          getUsers: /users
+      messaging-service:
+        url: http://localhost:8082
+        api:
+          getMessages: /messages
+          newMessage: /messages
+
+server:
+  port: 8080

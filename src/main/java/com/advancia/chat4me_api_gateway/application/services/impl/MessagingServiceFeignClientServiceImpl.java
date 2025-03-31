@@ -20,8 +20,8 @@ public class MessagingServiceFeignClientServiceImpl implements MessagingServiceF
     private final MessageMappers messageMappers;
 
     @Override
-    public List<Message> getMessages(String tokenSender, UUID receiver) {
-        List<MessageDto> messagesDto = messagingServiceFeignClient.getMessages(tokenSender, receiver);
+    public List<Message> getMessages(UUID sender, UUID receiver) {
+        List<MessageDto> messagesDto = messagingServiceFeignClient.getMessages(sender, receiver);
         return messageMappers.convertToDomain(messagesDto);
     }
 

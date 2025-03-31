@@ -65,7 +65,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewMessageDto'
+              $ref: '#/components/schemas/NewMessageRequestDto'
       responses:
         '201':
           description: Message successfully sent.
@@ -140,6 +140,35 @@ paths:
       responses:
         '200':
           description: Token is valid.
+        '400':
+          description: Bad request - Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+
+  /auth/extract-uuid:
+    post:
+      tags:
+        - auth
+      summary: Extract a UUID from an access token
+      description: >-
+        Proxies a request to the Authentication Service to extract the UUID
+        using a valid access token.
+      operationId: extractUUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserIdRequestDto'
+      responses:
+        '200':
+          description: UUID issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
 
   /auth/refresh:
     post:
@@ -173,6 +202,13 @@ paths:
         Proxies a request to the Messaging Service to fetch a list of available users.
         Requires authentication via a valid JWT token.
       operationId: getUsers
+      parameters:
+        - name: access-token
+          in: query
+          description: The access token for the user authentication.
+          required: true
+          schema:
+            type: string
       security:
         - bearerAuth: []
       responses:
@@ -201,6 +237,7 @@ components:
       properties:
         challenge_id:
           type: string
+          format: uuid
         message:
           type: string
         user_id:
@@ -256,6 +293,14 @@ components:
           type: string
           format: uuid
 
+    UserIdRequestDto:
+      type: object
+      required:
+        - access_token
+      properties:
+        access_token:
+          type: string
+
     RefreshTokenRequestDto:
       type: object
       required:
@@ -275,9 +320,10 @@ components:
           type: string
           description: Unique identifier for the message.
           format: uuid
-        tokenSender:
+        sender:
           type: string
-          description: Token of the sender
+          description: UUID of the sender
+          format: uuid
         receiver:
           type: string
           description: UUID of the receiver
@@ -296,7 +342,7 @@ components:
       items:
         $ref: '#/components/schemas/MessageDto'
 
-    NewMessageDto:
+    NewMessageRequestDto:
       type: object
       required:
         - tokenSender
@@ -306,6 +352,24 @@ components:
         tokenSender:
           type: string
           description: Token of the sender
+        receiver:
+          type: string
+          description: UUID of the receiver
+          format: uuid
+        content:
+          type: string
+
+    NewMessageDto:
+      type: object
+      required:
+        - sender
+        - receiver
+        - content
+      properties:
+        sender:
+          type: string
+          description: UUID of the sender
+          format: uuid
         receiver:
           type: string
           description: UUID of the receiver
@@ -337,3 +401,11 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/UserDto'
+
+    ErrorMessage:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorDesc:
+          type: string

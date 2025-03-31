@@ -11,8 +11,8 @@ import java.util.UUID;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewMessage {
-    private UUID sender;
+public class NewMessageRequest {
+    private String tokenSender;
     private UUID receiver;
     private String content;
 }

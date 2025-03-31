@@ -12,22 +12,27 @@ public class AuthServiceImpl implements AuthService {
     private final AuthServiceFeignClientService authFeignService;
 
     @Override
-    public ChallengeResponse resStartLogin(LoginRequest loginRequest) {
+    public ChallengeResponse startLogin(LoginRequest loginRequest) {
         return authFeignService.startLogin(loginRequest);
     }
 
     @Override
-    public AuthToken resVerifyOTP(OTPVerificationRequest otpVerificationRequest) {
+    public AuthToken verifyOTP(OTPVerificationRequest otpVerificationRequest) {
         return authFeignService.verifyOTP(otpVerificationRequest);
     }
 
     @Override
-    public void resValidateToken(TokenValidationRequest tokenValidationRequest) {
+    public void validateToken(TokenValidationRequest tokenValidationRequest) {
         authFeignService.validateToken(tokenValidationRequest);
     }
 
     @Override
-    public AuthToken resRefreshToken(RefreshTokenRequest refreshTokenRequest) {
+    public User extractUUID(UserIdRequest userIdRequest) {
+        return authFeignService.extractUUID(userIdRequest);
+    }
+
+    @Override
+    public AuthToken refreshToken(RefreshTokenRequest refreshTokenRequest) {
         return authFeignService.refreshToken(refreshTokenRequest);
     }
 }

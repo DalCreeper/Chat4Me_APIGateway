@@ -39,6 +39,13 @@ public class AuthServiceFeignClientServiceImpl implements AuthServiceFeignClient
     }
 
     @Override
+    public User extractUUID(UserIdRequest userIdRequest) {
+        UserIdRequestDto userIdRequestDto = authMappers.convertFromDomain(userIdRequest);
+        UserDto userDto = authServiceFeignClient.extractUUID(userIdRequestDto);
+        return userMappers.convertToDomain(userDto);
+    }
+
+    @Override
     public AuthToken refreshToken(RefreshTokenRequest refreshTokenRequest) {
         RefreshTokenRequestDto refreshTokenRequestDto = authMappers.convertFromDomain(refreshTokenRequest);
         AuthTokenDto refreshAuthTokenDto = authServiceFeignClient.refreshToken(refreshTokenRequestDto);
@@ -46,8 +53,8 @@ public class AuthServiceFeignClientServiceImpl implements AuthServiceFeignClient
     }
 
     @Override
-    public List<User> getUsers() {
-        List<UserDto> usersDto = authServiceFeignClient.getUsers();
+    public List<User> getUsers(String accessToken) {
+        List<UserDto> usersDto = authServiceFeignClient.getUsers(accessToken);
         return userMappers.convertToDomain(usersDto);
     }
 }

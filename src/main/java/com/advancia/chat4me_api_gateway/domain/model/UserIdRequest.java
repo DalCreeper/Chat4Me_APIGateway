@@ -5,14 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewMessage {
-    private UUID sender;
-    private UUID receiver;
-    private String content;
+public class UserIdRequest {
+    private String accessToken;
 }

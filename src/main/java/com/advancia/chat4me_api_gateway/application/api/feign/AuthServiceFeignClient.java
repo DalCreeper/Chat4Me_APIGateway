@@ -5,38 +5,45 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(value = "auth-feign-client", url = "${app.feign.clients.url}")
+@FeignClient(value = "auth-feign-client", url = "${app.feign.clients.auth-service.url}")
 public interface AuthServiceFeignClient {
-    @GetMapping(value = "${app.feign.clients.api.startLogin}",
+    @GetMapping(value = "${app.feign.clients.auth-service.api.startLogin}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     ChallengeResponseDto startLogin(@RequestBody LoginRequestDto loginRequestDto);
 
-    @GetMapping(value = "${app.feign.clients.api.verifyOTP}",
+    @GetMapping(value = "${app.feign.clients.auth-service.api.verifyOTP}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     AuthTokenDto verifyOTP(@RequestBody OTPVerificationRequestDto otpVerificationRequestDto);
 
-    @GetMapping(value = "${app.feign.clients.api.validateToken}",
+    @GetMapping(value = "${app.feign.clients.auth-service.api.validateToken}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     void validateToken(@RequestBody TokenValidationRequestDto tokenValidationRequestDto);
 
-    @GetMapping(value = "${app.feign.clients.api.refreshToken}",
+    @GetMapping(value = "${app.feign.clients.auth-service.api.extractUUID}",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    UserDto extractUUID(@RequestBody UserIdRequestDto userIdRequestDto);
+
+    @GetMapping(value = "${app.feign.clients.auth-service.api.refreshToken}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     AuthTokenDto refreshToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDto);
 
-    @GetMapping(value = "${app.feign.clients.api.getUsers}",
+    @GetMapping(value = "${app.feign.clients.auth-service.api.getUsers}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    List<UserDto> getUsers();
+    List<UserDto> getUsers(@RequestParam("access-token") String accessToken);
 }

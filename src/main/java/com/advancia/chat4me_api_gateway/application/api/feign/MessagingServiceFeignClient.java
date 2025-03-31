@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(value = "messaging-feign-client", url = "${app.feign.clients.url}")
+@FeignClient(value = "messaging-feign-client", url = "${app.feign.clients.messaging-service.url}")
 public interface MessagingServiceFeignClient {
-    @GetMapping(value = "${app.feign.clients.api.getMessages}",
+    @GetMapping(value = "${app.feign.clients.messaging-service.api.getMessages}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    List<MessageDto> getMessages(@RequestParam("token_sender") String tokenSender, @RequestParam("user_id_receiver") UUID receiver);
+    List<MessageDto> getMessages(@RequestParam("user_id_sender") UUID sender, @RequestParam("user_id_receiver") UUID receiver);
 
-    @GetMapping(value = "${app.feign.clients.api.newMessage}",
+    @GetMapping(value = "${app.feign.clients.messaging-service.api.newMessage}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )

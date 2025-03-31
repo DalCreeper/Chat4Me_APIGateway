@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     private final AuthServiceFeignClientService authFeignService;
 
     @Override
-    public List<User> resGetUsers() {
-        return authFeignService.getUsers();
+    public List<User> getUsers(String accessToken) {
+        return authFeignService.getUsers(accessToken);
     }
 }

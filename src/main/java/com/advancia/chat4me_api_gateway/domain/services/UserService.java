@@ -5,5 +5,5 @@ import com.advancia.chat4me_api_gateway.domain.model.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> resGetUsers();
+    List<User> getUsers(String accessToken);
 }
