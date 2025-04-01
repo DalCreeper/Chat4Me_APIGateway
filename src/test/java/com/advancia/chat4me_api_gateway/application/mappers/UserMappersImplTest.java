@@ -66,7 +66,7 @@ public class UserMappersImplTest {
 
     @Test
     void shouldReturnNull_whenUserDtoIsNull() {
-        assertNull(userMappersImpl.convertFromDomain((User) null));
+        assertNull(userMappersImpl.convertToDomain((UserDto) null));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class UserMappersImplTest {
 
     @Test
     void shouldReturnNull_whenUserListIsNull() {
-        assertNull(userMappersImpl.convertFromDomain((User) null));
+        assertNull(userMappersImpl.convertFromDomain((List<User>) null));
     }
 
     @Test
@@ -113,6 +113,6 @@ public class UserMappersImplTest {
 
     @Test
     void shouldReturnNull_whenUserDtoListIsNull() {
-        assertNull(userMappersImpl.convertToDomain((UserDto) null));
+        assertNull(userMappersImpl.convertToDomain((List<UserDto>) null));
     }
 }

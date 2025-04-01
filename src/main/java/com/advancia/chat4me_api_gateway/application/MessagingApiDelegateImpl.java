@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class MessagingApiDelegateImpl implements MessagingApiDelegate {
     public ResponseEntity<MessageDto> newMessage(NewMessageRequestDto newMessageRequestDto) {
         NewMessageRequest newMessageRequest = messageMappers.convertToDomain(newMessageRequestDto);
         Message message = messageService.newMessage(newMessageRequest);
-        return ResponseEntity.ok(messageMappers.convertFromDomain(message));
+        URI location = URI.create("/messages/" + message.getId());
+        return ResponseEntity.created(location).body(messageMappers.convertFromDomain(message));
     }
 }

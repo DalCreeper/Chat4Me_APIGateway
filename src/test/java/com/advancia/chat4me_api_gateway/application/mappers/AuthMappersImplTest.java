@@ -215,6 +215,37 @@ public class AuthMappersImplTest {
     }
 
     @Test
+    void shouldConvertUserIdRequestFromDomain_whenIsAllOk() {
+        UserIdRequest userIdRequest = UserIdRequest.builder()
+            .accessToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ZjExM2JiMi0zOGViLTQ3ZTctODRhMi1jZjI3MDMwMDRiODYiLCJpYXQiOjE3NDExMDczMDAsImV4cCI6MTc0MTE5MzcwMH0.lVCPs_piZa-se2ABiy6xjfor5oAvKSvv1T_n5YYKnik")
+            .build();
+
+        UserIdRequestDto userIdRequestDto = authMappersImpl.convertFromDomain(userIdRequest);
+        assertNotNull(userIdRequestDto);
+        assertEquals(userIdRequest.getAccessToken(), userIdRequestDto.getAccessToken());
+    }
+
+    @Test
+    void shouldReturnNull_whenUserIdRequestIsNull() {
+        assertNull(authMappersImpl.convertFromDomain((UserIdRequest) null));
+    }
+
+    @Test
+    void shouldConvertUserIdRequestToDomain_whenIsAllOk() {
+        UserIdRequestDto userIdRequestDto = new UserIdRequestDto();
+        userIdRequestDto.setAccessToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ZjExM2JiMi0zOGViLTQ3ZTctODRhMi1jZjI3MDMwMDRiODYiLCJpYXQiOjE3NDExMDczMDAsImV4cCI6MTc0MTE5MzcwMH0.lVCPs_piZa-se2ABiy6xjfor5oAvKSvv1T_n5YYKnik");
+
+        UserIdRequest userIdRequest = authMappersImpl.convertToDomain(userIdRequestDto);
+        assertNotNull(userIdRequest);
+        assertEquals(userIdRequestDto.getAccessToken(), userIdRequest.getAccessToken());
+    }
+
+    @Test
+    void shouldReturnNull_whenUserIdRequestDtoIsNull() {
+        assertNull(authMappersImpl.convertToDomain((UserIdRequestDto) null));
+    }
+
+    @Test
     void shouldConvertRefreshTokenRequestFromDomain_whenIsAllOk() {
         RefreshTokenRequest refreshTokenRequest = RefreshTokenRequest.builder()
             .refreshTokenId(UUID.randomUUID())

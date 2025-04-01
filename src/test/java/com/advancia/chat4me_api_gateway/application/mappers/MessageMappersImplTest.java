@@ -2,8 +2,10 @@ package com.advancia.chat4me_api_gateway.application.mappers;
 
 import com.advancia.Chat4Me_API_Gateway.generated.application.model.MessageDto;
 import com.advancia.Chat4Me_API_Gateway.generated.application.model.NewMessageDto;
+import com.advancia.Chat4Me_API_Gateway.generated.application.model.NewMessageRequestDto;
 import com.advancia.chat4me_api_gateway.domain.model.Message;
 import com.advancia.chat4me_api_gateway.domain.model.NewMessage;
+import com.advancia.chat4me_api_gateway.domain.model.NewMessageRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +28,7 @@ public class MessageMappersImplTest {
             .id(UUID.randomUUID())
             .sender(UUID.randomUUID())
             .receiver(UUID.randomUUID())
-            .content("content")
+            .content("test")
             .received(false)
             .timestamp(OffsetDateTime.now())
             .build();
@@ -52,7 +54,7 @@ public class MessageMappersImplTest {
         messageDto.setId(UUID.randomUUID());
         messageDto.setSender(UUID.randomUUID());
         messageDto.setReceiver(UUID.randomUUID());
-        messageDto.setContent("content");
+        messageDto.setContent("test");
         messageDto.setReceived(false);
         messageDto.setTimestamp(OffsetDateTime.now());
 
@@ -69,6 +71,45 @@ public class MessageMappersImplTest {
     @Test
     void shouldReturnNull_whenMessageDtoIsNull() {
         assertNull(messageMappersImpl.convertToDomain((MessageDto) null));
+    }
+
+    @Test
+    void shouldConvertNewMessageRequestFromDomain_whenIsAllOk() {
+        NewMessageRequest newMessageRequest = NewMessageRequest.builder()
+            .tokenSender("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ZjExM2JiMi0zOGViLTQ3ZTctODRhMi1jZjI3MDMwMDRiODYiLCJpYXQiOjE3NDExMDczMDAsImV4cCI6MTc0MTE5MzcwMH0.lVCPs_piZa-se2ABiy6xjfor5oAvKSvv1T_n5YYKnik")
+            .receiver(UUID.randomUUID())
+            .content("test")
+            .build();
+
+        NewMessageRequestDto newMessageRequestDto = messageMappersImpl.convertFromDomain(newMessageRequest);
+        assertNotNull(newMessageRequestDto);
+        assertEquals(newMessageRequest.getTokenSender(), newMessageRequestDto.getTokenSender());
+        assertEquals(newMessageRequest.getReceiver(), newMessageRequestDto.getReceiver());
+        assertEquals(newMessageRequest.getContent(), newMessageRequestDto.getContent());
+    }
+
+    @Test
+    void shouldReturnNull_whenNewMessageRequestIsNull() {
+        assertNull(messageMappersImpl.convertFromDomain((NewMessageRequest) null));
+    }
+
+    @Test
+    void shouldConvertNewMessageRequestToDomain_whenIsAllOk() {
+        NewMessageRequestDto newMessageRequestDto = new NewMessageRequestDto();
+        newMessageRequestDto.setTokenSender("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ZjExM2JiMi0zOGViLTQ3ZTctODRhMi1jZjI3MDMwMDRiODYiLCJpYXQiOjE3NDExMDczMDAsImV4cCI6MTc0MTE5MzcwMH0.lVCPs_piZa-se2ABiy6xjfor5oAvKSvv1T_n5YYKnik");
+        newMessageRequestDto.setReceiver(UUID.randomUUID());
+        newMessageRequestDto.setContent("test");
+
+        NewMessageRequest newMessageRequest = messageMappersImpl.convertToDomain(newMessageRequestDto);
+        assertNotNull(newMessageRequest);
+        assertEquals(newMessageRequestDto.getTokenSender(), newMessageRequest.getTokenSender());
+        assertEquals(newMessageRequestDto.getReceiver(), newMessageRequest.getReceiver());
+        assertEquals(newMessageRequestDto.getContent(), newMessageRequest.getContent());
+    }
+
+    @Test
+    void shouldReturnNull_whenNewMessageRequestDtoIsNull() {
+        assertNull(messageMappersImpl.convertToDomain((NewMessageRequestDto) null));
     }
 
     @Test
@@ -116,7 +157,7 @@ public class MessageMappersImplTest {
             .id(UUID.randomUUID())
             .sender(UUID.randomUUID())
             .receiver(UUID.randomUUID())
-            .content("content")
+            .content("test")
             .received(false)
             .timestamp(OffsetDateTime.now())
             .build();
@@ -138,7 +179,7 @@ public class MessageMappersImplTest {
         messageDto.setId(UUID.randomUUID());
         messageDto.setSender(UUID.randomUUID());
         messageDto.setReceiver(UUID.randomUUID());
-        messageDto.setContent("content");
+        messageDto.setContent("test");
         messageDto.setReceived(false);
         messageDto.setTimestamp(OffsetDateTime.now());
 
