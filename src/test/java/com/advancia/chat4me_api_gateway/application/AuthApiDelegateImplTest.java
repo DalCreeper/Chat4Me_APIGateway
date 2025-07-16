@@ -1,10 +1,10 @@
 package com.advancia.chat4me_api_gateway.application;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.*;
 import com.advancia.chat4me_api_gateway.application.mappers.AuthMappers;
 import com.advancia.chat4me_api_gateway.application.mappers.UserMappers;
 import com.advancia.chat4me_api_gateway.domain.model.*;
 import com.advancia.chat4me_api_gateway.domain.services.AuthService;
+import com.advancia.chat4me_api_gateway.generated.application.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

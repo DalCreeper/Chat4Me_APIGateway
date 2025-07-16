@@ -1,6 +1,6 @@
 package com.advancia.chat4me_api_gateway.application.eceptions;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.ErrorMessage;
+import com.advancia.chat4me_api_gateway.generated.application.model.ErrorMessage;
 import com.advancia.chat4me_api_gateway.application.exceptions.ApiGatewayExceptionHandler;
 import feign.FeignException;
 import feign.Request;

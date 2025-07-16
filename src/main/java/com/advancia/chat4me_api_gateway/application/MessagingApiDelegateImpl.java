@@ -1,8 +1,8 @@
 package com.advancia.chat4me_api_gateway.application;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.api.MessagingApiDelegate;
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.MessageDto;
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.NewMessageRequestDto;
+import com.advancia.chat4me_api_gateway.generated.application.api.MessagingApiDelegate;
+import com.advancia.chat4me_api_gateway.generated.application.model.MessageDto;
+import com.advancia.chat4me_api_gateway.generated.application.model.NewMessageRequestDto;
 import com.advancia.chat4me_api_gateway.application.mappers.MessageMappers;
 import com.advancia.chat4me_api_gateway.domain.model.Message;
 import com.advancia.chat4me_api_gateway.domain.model.NewMessageRequest;

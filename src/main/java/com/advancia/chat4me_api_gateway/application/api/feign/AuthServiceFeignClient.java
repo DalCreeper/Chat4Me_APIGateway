@@ -1,9 +1,10 @@
 package com.advancia.chat4me_api_gateway.application.api.feign;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.*;
+import com.advancia.chat4me_api_gateway.generated.application.model.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -11,13 +12,13 @@ import java.util.List;
 
 @FeignClient(value = "auth-feign-client", url = "${app.feign.clients.auth-service.url}")
 public interface AuthServiceFeignClient {
-    @GetMapping(value = "${app.feign.clients.auth-service.api.startLogin}",
+    @PostMapping(value = "${app.feign.clients.auth-service.api.startLogin}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     ChallengeResponseDto startLogin(@RequestBody LoginRequestDto loginRequestDto);
 
-    @GetMapping(value = "${app.feign.clients.auth-service.api.verifyOTP}",
+    @PostMapping(value = "${app.feign.clients.auth-service.api.verifyOTP}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -29,13 +30,13 @@ public interface AuthServiceFeignClient {
     )
     void validateToken(@RequestBody TokenValidationRequestDto tokenValidationRequestDto);
 
-    @GetMapping(value = "${app.feign.clients.auth-service.api.extractUUID}",
+    @PostMapping(value = "${app.feign.clients.auth-service.api.extractUUID}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     UserDto extractUUID(@RequestBody UserIdRequestDto userIdRequestDto);
 
-    @GetMapping(value = "${app.feign.clients.auth-service.api.refreshToken}",
+    @PostMapping(value = "${app.feign.clients.auth-service.api.refreshToken}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )

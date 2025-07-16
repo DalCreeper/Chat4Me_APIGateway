@@ -1,6 +1,6 @@
 package com.advancia.chat4me_api_gateway.application;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.UserDto;
+import com.advancia.chat4me_api_gateway.generated.application.model.UserDto;
 import com.advancia.chat4me_api_gateway.application.mappers.UserMappers;
 import com.advancia.chat4me_api_gateway.domain.model.User;
 import com.advancia.chat4me_api_gateway.domain.services.UserService;

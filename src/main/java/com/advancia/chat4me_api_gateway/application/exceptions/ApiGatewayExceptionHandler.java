@@ -1,6 +1,6 @@
 package com.advancia.chat4me_api_gateway.application.exceptions;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.ErrorMessage;
+import com.advancia.chat4me_api_gateway.generated.application.model.ErrorMessage;
 import feign.FeignException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

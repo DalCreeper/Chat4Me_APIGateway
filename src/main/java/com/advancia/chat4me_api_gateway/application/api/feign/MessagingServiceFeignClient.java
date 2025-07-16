@@ -1,10 +1,11 @@
 package com.advancia.chat4me_api_gateway.application.api.feign;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.MessageDto;
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.NewMessageDto;
+import com.advancia.chat4me_api_gateway.generated.application.model.MessageDto;
+import com.advancia.chat4me_api_gateway.generated.application.model.NewMessageDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,7 +20,7 @@ public interface MessagingServiceFeignClient {
     )
     List<MessageDto> getMessages(@RequestParam("user_id_sender") UUID sender, @RequestParam("user_id_receiver") UUID receiver);
 
-    @GetMapping(value = "${app.feign.clients.messaging-service.api.newMessage}",
+    @PostMapping(value = "${app.feign.clients.messaging-service.api.newMessage}",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
     )

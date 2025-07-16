@@ -1,6 +1,5 @@
 package com.advancia.chat4me_api_gateway.domain.services.impl;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.UserIdRequestDto;
 import com.advancia.chat4me_api_gateway.domain.api.AuthServiceFeignClientService;
 import com.advancia.chat4me_api_gateway.domain.api.MessagingServiceFeignClientService;
 import com.advancia.chat4me_api_gateway.domain.model.*;

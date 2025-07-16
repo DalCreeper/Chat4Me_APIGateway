@@ -1,6 +1,6 @@
 package com.advancia.chat4me_api_gateway.application.mappers;
 
-import com.advancia.Chat4Me_API_Gateway.generated.application.model.UserDto;
+import com.advancia.chat4me_api_gateway.generated.application.model.UserDto;
 import com.advancia.chat4me_api_gateway.domain.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
